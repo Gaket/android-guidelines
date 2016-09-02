@@ -228,32 +228,3 @@ Timber handles string formatting automatically:
 #### 2.1.5 Using try-catch over throw exception
 
 Using try-catch statements improves the readability of the code where the exception is taking place. This is because the error is handled where it occurs, making it easier to both debug or make a change to how the error is handled.
-
-
-#### 2.1.6 Never use Finalizers
-
-*There are no guarantees as to when a finalizer will be called, or even that it will be called at all. In most cases, you can do what you need from a finalizer with good exception handling. If you absolutely need it, define a close() method (or the like) and document exactly when that method needs to be called. See InputStreamfor an example. In this case it is appropriate but not required to print a short log message from the finalizer, as long as it is not expected to flood the logs.* - taken from the Android code style guidelines
-
-
-
-#### 2.1.7 Fully qualify imports
-
-When declaring imports, use the full package declaration. For example:
-
-Don’t do this:
-
-
-    import android.support.v7.widget.*;
-
-Instead, do this 😃
-
-
-    import android.support.v7.widget.RecyclerView;
-
-
-#### 2.1.8 Don't keep unused imports
-
-Sometimes removing code from a class can mean that some imports are no longer needed. If this is the case then the corresponding imports should be removed alongside the code.
-
-First, to make the code cleaner. Second, to avoid situations when a person deletes some code, leaving the unused import and then another person adds some code containing different class with the same class name, that can lead to errors. For the simple example, first, using android.app.Fragment and then trying to use android.support.v4.app.Fragment.
-
