@@ -139,7 +139,7 @@ This gives no information to both the developer and the user, making it harder t
         	count = Integer.parseInt(id);
     	} catch (NumberFormatException e) {
     		count = 0;
-        	Log.e(TAG, "There was an error parsing the count " + e);
+        	Timber.e(e, "There was an error parsing the count ");
         	DialogFactory.showErrorMessage(R.string.error_message_parsing_count);
     	}
 	}
@@ -162,7 +162,7 @@ Catching exceptions generally should not be done:
     	try {
         	context.startActivity(intent);
     	} catch (Exception e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
+        	Timber.e(e, "There was an error opening the custom tab ");
     	}
 	}
 
@@ -177,7 +177,7 @@ Instead, catch the expected exception and handle it accordingly:
     	try {
         	context.startActivity(intent);
     	} catch (ActivityNotFoundException e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
+        	Timber.e(e, "There was an error opening the custom tab ");
     	}
 	}
 
@@ -191,9 +191,9 @@ Where exceptions execute the same code, they should be grouped in-order to incre
     	try {
         	context.startActivity(intent);
     	} catch (ActivityNotFoundException e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
+        	Timber.e(e, "There was an error opening the custom tab ");
     	} catch (NullPointerException e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
+        	Timber.e(e, "There was an error opening the custom tab ");
     	} catch (SomeOtherException e) {
     		// Show some dialog
         }
@@ -206,25 +206,37 @@ You could do this:
     	try {
         	context.startActivity(intent);
     	} catch (ActivityNotFoundException e | NullPointerException e) {
-        	Log.e(TAG, "There was an error opening the custom tab " + e);
+        	Timber.e(e, "There was an error opening the custom tab ");
     	} catch (SomeOtherException e) {
     		// Show some dialog
         }
 	}
+	
+#### 2.1.4 String concatenation in exceptions call
+
+Don't use string concatenation in log calls:
+
+     String msg = "pay more attention to this guides"
+     Timber.e(e, "Some message: " + msg + ". Check an e-mail with details.");
 
 
-#### 2.1.4 Using try-catch over throw exception
+Timber handles string formatting automatically:
+
+     String msg = "pay more attention to this guides"
+     Timber.e(e, "Some message: %s. Check an e-mail with details.", msg);
+
+#### 2.1.5 Using try-catch over throw exception
 
 Using try-catch statements improves the readability of the code where the exception is taking place. This is because the error is handled where it occurs, making it easier to both debug or make a change to how the error is handled.
 
 
-#### 2.1.5 Never use Finalizers
+#### 2.1.6 Never use Finalizers
 
 *There are no guarantees as to when a finalizer will be called, or even that it will be called at all. In most cases, you can do what you need from a finalizer with good exception handling. If you absolutely need it, define a close() method (or the like) and document exactly when that method needs to be called. See InputStreamfor an example. In this case it is appropriate but not required to print a short log message from the finalizer, as long as it is not expected to flood the logs.* - taken from the Android code style guidelines
 
 
 
-#### 2.1.6 Fully qualify imports
+#### 2.1.7 Fully qualify imports
 
 When declaring imports, use the full package declaration. For example:
 
@@ -239,7 +251,9 @@ Instead, do this 😃
     import android.support.v7.widget.RecyclerView;
 
 
-#### 2.1.7 Don't keep unused imports
+#### 2.1.8 Don't keep unused imports
 
 Sometimes removing code from a class can mean that some imports are no longer needed. If this is the case then the corresponding imports should be removed alongside the code.
+
+First, to make the code cleaner. Second, to avoid situations when a person deletes some code, leaving the unused import and then another person adds some code containing different class with the same class name, that can lead to errors. For the simple example, first, using android.app.Fragment and then trying to use android.support.v4.app.Fragment.
 
