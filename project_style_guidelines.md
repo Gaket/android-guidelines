@@ -224,7 +224,283 @@ Timber handles string formatting automatically:
 
      String msg = "pay more attention to this guides"
      Timber.e(e, "Some message: %s. Check an e-mail with details.", msg);
-
+     
 #### 2.1.5 Using try-catch over throw exception
 
 Using try-catch statements improves the readability of the code where the exception is taking place. This is because the error is handled where it occurs, making it easier to both debug or make a change to how the error is handled.
+
+#### 2.1.6 Fully qualify imports
+
+When declaring imports, use the full package declaration. For example:
+
+Don’t do this:
+
+
+    import android.support.v7.widget.*;
+
+Instead, do this 😃
+
+
+    import android.support.v7.widget.RecyclerView;
+
+
+#### 2.1.7 Don't keep unused imports
+
+Sometimes removing code from a class can mean that some imports are no longer needed. If this is the case then the corresponding imports should be removed alongside the code.
+
+### 2.2 Java Style Rules
+
+#### 2.2.1 Field definition and naming
+
+All fields should be declared at the top of the file, following these rules:
+
+
+- Private, non-static field names should start with m. This is right:
+
+    mUserSignedIn, mUserNameText, mAcceptButton
+
+Not this:
+
+    userSignedIn, userNameText, acceptButton
+
+
+- Private, static field names should start with an s. This is right:
+
+    sSomeStaticField, sUserNameText
+
+Not this:
+
+	someStaticField, userNameText
+
+
+- All other fields also start with a lower case letter.
+
+
+    int numOfChildren;
+    String username;
+
+
+- Static final fields (known as constants) are ALL_CAPS_WITH_UNDERSCORES.
+
+
+    private static final int PAGE_COUNT = 0;
+
+Field names that do not reveal intention should not be used. For example,
+
+    int e; //number of elements in the list
+
+why not just give the field a meaningful name in the first place, rather than leaving a comment!
+
+    int numberOfElements;
+
+That's much better!
+
+
+#### 2.2.1.2 View Field Naming
+
+When naming fields that reference views, the name of the view should be the last word in the name. For example:
+
+| View           | Name              |
+|----------------|-------------------|
+| TextView       | usernameView      |
+| Button         | acceptLoginView   |
+| ImageView      | profileAvatarView |
+| RelativeLayout | profileLayout     |
+
+We name views in this way so that we can easily identify what the field corresponds to. For example, having a field named **user** is extremely ambiguous - giving it the name usernameView, userAvatarView or userProfieLayout helps to make it clear  exactly what view the field corresponds with.
+
+Previously, the names for views often ended in the view type (e.g acceptLoginButton) but quite often views change and it's easy to forgot to go back to java classes and update variable names.
+
+#### 2.2.2 Avoid naming with container types
+
+Leading on from the above, we should also avoid the use of container type names when creating variables for collections. For example, say we have an arraylist containing a list of userIds:
+
+Do:
+
+    List<String> userIds = new ArrayList<>();
+
+Don't:
+
+    List<String> userIdList = new ArrayList<>();
+
+If and when container names change in the future, the naming of these can often get forgotten about - and just like view naming, it's not entirely necessary. Correct naming of the container itself should provide enough information for what it is.
+
+
+#### 2.2.3 Avoid similar naming
+
+Naming variables, method and / or classes with similar names can make it confusing for other developers reading over your code. For example:
+
+	hasUserSelectedSingleProfilePreviously
+
+	hasUserSelectedSignedProfilePreviously
+
+Distinguishing the difference between these at a first glance can be hard to understand what is what. Naming these in a clearer way can make it easier for developers to navigate the fields in your code.
+
+#### 2.2.4 Number series naming
+
+When Android Studio auto-generates code for us, it's easy to leave things as they are - even when it generate horribly named parameters! For example, this isn't very nice:
+
+	public void doSomething(String s1, String s2, String s3)
+
+It's hard to understand what these parameters do without reading the code. Instead:
+
+	public void doSomething(String userName, String userEmail, String userId)
+
+That makes it much easier to understand! Now we'll be able to read the code following the parameter with a much clearer understanding 🙂
+
+#### 2.2.5 Pronouncable names
+
+When naming fields, methods and classes they should:
+
+- Be readable: Efficient naming means we'll be able to look at the name and understand it instantly, reducing cognitive load on trying to decipher what the name means.
+
+- Be speakable: Names that are speakable avoids awkward conversations where you're trying to pronounce a badly named variable name.
+
+- Be searchable: Nothing is worse than trying to search for a method or variable in a class to realise it's been spelt wrong or badly named. If we're trying to find a method that searches for a user, then searching for 'search' should bring up a result for that method.
+
+- Not use Hungarian notation: Hungarian notation goes against the three points made above, so it should never be used!
+
+
+#### 2.2.6 Treat acronyms as words
+
+Any acronyms for class names, variable names etc should be treated as words - this applies for any capitalisation used for any of the letters. For example:
+
+| Do              | Don't           |
+|-----------------|-----------------|
+| setUserId       | setUserID       |
+| String uri      | String URI      |
+| int id          | int ID          |
+| parseHtml       | parseHTML       |
+| generateXmlFile | generateXMLFile |
+
+
+#### 2.2.7 Avoid justifying variable declarations
+
+Any declaration of variables should not use any special form of alignment, for example:
+
+This is fine:
+
+    private int userId = 8;
+    private int count = 0;
+    private String username = "hitherejoe";
+
+Avoid doing this:
+
+    private String username = "hitherejoe";
+    private int userId      = 8;
+    private int count       = 0;
+
+This creates a stream of whitespace which is known to make text difficult to read for certain learning difficulties.
+
+#### 2.2.8 Use spaces for indentation
+
+
+For blocks, 4 space indentation should be used:
+
+
+    if (userSignedIn) {
+        count = 1;
+    }
+
+Whereas for line wraps, 8 spaces should be used:
+
+
+    String userAboutText =
+            "This is some text about the user and it is pretty long, can you see!"
+
+
+### 2.2.9 If-Statements
+
+#### 2.2.9.1 Use standard brace style
+
+Braces should always be used on the same line as the code before them. For example, avoid doing this:
+
+
+    class SomeClass
+    {
+    	private void someFunction()
+    	{
+        	if (isSomething)
+        	{
+
+        	}
+        	else if (!isSomethingElse)
+        	{
+
+        	}
+        	else
+        	{
+
+        	}
+    	}
+	}
+
+And instead, do this:
+
+
+	class SomeClass {
+    	private void someFunction() {
+        	if (isSomething) {
+
+        	} else if (!isSomethingElse) {
+
+        	} else {
+
+        	}
+    	}
+	}
+
+Not only is the extra line for the space not really necessary, but it makes blocks easier to follow when reading the code.
+
+#### 2.2.9.2 Inline if-clauses
+
+Sometimes it makes sense to use a single line for if statements. For example:
+
+    if (user == null) return false;
+
+However, it only works for simple operations. Something like this would be better suited with braces:
+
+
+    if (user == null) throw new IllegalArgumentExeption("Oops, user object is required.");
+
+#### 2.2.9.3 Nested if-conditions
+
+Where possible, if-conditions should be combined to avoid over-complicated nesting. For example:
+
+Do:
+
+
+    if (userSignedIn && userId != null) {
+
+    }
+
+Try to avoid:
+
+
+    if (userSignedIn) {
+        if (userId != null) {
+
+        }
+    }
+
+This makes statements easier to read and removes the unnecessary extra lines from the nested clauses.
+
+#### 2.2.9.4 Ternary Operators
+
+Where appropriate, ternary operators can be used to simplify operations.
+
+For example, this is easy to read:
+
+
+    userStatusImage = signedIn ? R.drawable.ic_tick : R.drawable.ic_cross;
+
+and takes up far fewer lines of code than this:
+
+
+    if (signedIn) {
+        userStatusImage = R.drawable.ic_tick;
+    } else {
+        userStatusImage = R.drawable.ic_cross;
+    }
+
+**Note:** There are some times when ternary operators should not be used. If the if-clause logic is complex or a large number of characters then a standard brace style should be used.
