@@ -248,6 +248,10 @@ Instead, do this 😃
 
 Sometimes removing code from a class can mean that some imports are no longer needed. If this is the case then the corresponding imports should be removed alongside the code.
 
+#### 2.1.8 Always add default clause
+
+Usually, if there is switch-case and no one of existing cases was triggered, it means that something went wrong. Always add logging to default clause to be able to notice such cases.
+
 ### 2.2 Java Style Rules
 
 #### 2.2.1 Field definition and naming
@@ -266,7 +270,7 @@ Not this:
 
 - Private, static field names should start with an s. This is right:
 
-    sSomeStaticField, sUserNameText
+	sSomeStaticField, sUserNameText
 
 Not this:
 
@@ -357,8 +361,6 @@ When naming fields, methods and classes they should:
 - Be speakable: Names that are speakable avoids awkward conversations where you're trying to pronounce a badly named variable name.
 
 - Be searchable: Nothing is worse than trying to search for a method or variable in a class to realise it's been spelt wrong or badly named. If we're trying to find a method that searches for a user, then searching for 'search' should bring up a result for that method.
-
-- Not use Hungarian notation: Hungarian notation goes against the three points made above, so it should never be used!
 
 
 #### 2.2.6 Treat acronyms as words
