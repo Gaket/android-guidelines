@@ -56,11 +56,11 @@ This convention again makes it really easy to locate the specific layout file th
 
 Drawable resource files should be named using the **ic_** prefix along with the size and color of the asset. For example, white accept icon sized at 24dp would be named:
 
-	ic_accept_24dp_white
+	ic_accept_24_white
 
 And a black cancel icon sized at 48dp would be named:
 
-	ic_cancel_48dp_black
+	ic_cancel_48_black
 
 We use this naming convention so that a drawable file is recognisable by its name. If the colour and size are not stated in the name, then the developer needs to open the drawable file to find out this information. This saves us a little bit of time :)
 
